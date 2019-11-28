@@ -1,0 +1,191 @@
+#  Written by Griffin Cox. Please feel free to do whatever you want with it. I was going to create a
+#  quadrilateral generator but that proved to be rather difficult. The same thang happened with my parabola generator.
+#  If you can figure that out please comment in the Instructables page to let me know. Thanks.
+
+import math
+from random import uniform
+from random import randint
+from time import sleep
+
+def welcome():
+    print("")
+    print("Mathematical Function-Based Art Generator v3.1")
+    sleep(2.5)
+    print("")
+    
+#----------------------------------------------------------------------------------------------------------------------------------------
+    
+def askFunc():
+    global func
+    func = str(input("""What Function would you like to plot?
+
+For a Single Point, enter 'pnt'
+
+For Line Segment, enter 'lin'
+
+For Sine Wave Segment, enter 'sin'
+
+For Square Root Function, enter 'sqrt'
+
+For a "Cool Something," enter 'cool'
+
+ENTER NOW__ """))
+    print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+    sleep(0.5)
+
+#----------------------------------------------------------------------------------------------------------------------------------------
+
+def generateFunc():
+
+    if func == "pnt":
+        generatePoint() 
+
+    if func == "lin":
+        generateLineSeg()
+        
+    if func == "sin":
+        generateSine()
+
+    if func == "sqrt":
+        generateSquareRoot()
+
+    if func == "cool":
+        generateCool()
+
+    elif func != "pnt" and func != "lin" and func != "sin" and func != "sqrt" and func != "cool":
+        sleep(2)
+        print("""
+I'm sorry, please enter a valid function code.
+~RESTARTING PROGRAM~
+        """)
+        runProgram()
+    myColor = randint(1, 7)
+    if myColor == 1:
+        myColor = "red"
+    if myColor == 2:
+        myColor = "orange"
+    if myColor == 3:
+        myColor = "green"
+    if myColor == 4:
+        myColor = "blue"
+    if myColor == 5:
+        myColor = "yellow"
+    if myColor == 6:
+        myColor = "brown"
+    if myColor == 7:
+        myColor = "tan"
+    sleep(1)
+    myColor = myColor.upper()
+    print(" -- Your color for this function is", myColor, "-- ")
+    print("")
+
+#----------------------------------------------------------------------------------------------------------------------------------------
+              
+def askWill():
+    global willBool
+    willStr = str(input("Do you want to continue with another function? ('Y' or 'N')__ "))
+    willStr = willStr.upper()
+    willBool = (willStr == 'Y')
+    print("")
+    if willBool == False:
+        print("I would be sorry to see you go if I had feelings. But I don't. So bye!")
+
+#----------------------------------------------------------------------------------------------------------------------------------------
+    
+def runProgram():
+    welcome()
+    askFunc()
+    generateFunc()
+    askWill()
+    while (willBool == True):
+        askFunc()
+        generateFunc()
+        askWill()
+#----------------------------------------------------------------------------------------------------------------------------------------
+        
+def generatePoint():
+     myPoint = (randint(2, 56), randint(2,56))
+     print("Your point is ", myPoint)
+     
+#----------------------------------------------------------------------------------------------------------------------------------------
+     
+def generateLineSeg():
+     myPointOne = ((randint(2, 42)), (randint(2,58))) 
+     myPointTwo = ((randint(2, 42)), (randint(2,58))) 
+     
+     x1 = myPointOne[0] 
+     y1 = myPointOne[1]
+     x2 = myPointTwo[0]
+     y2 = myPointTwo[1]
+
+     print("Your endpoints are:")
+     print(myPointOne)
+     print(myPointTwo)
+     print("")
+
+     myLineLength = math.sqrt((x2 - x1)**2 + (y2 - y1)**2) 
+     myLineSlope = (y2 - y1) / (x2 - x1)
+     myRoundedSlope = round(myLineSlope, 2)
+     myLineIntercept = (y1 - (myLineSlope*x1))
+     myRoundedIntercept = round(myLineIntercept)
+
+     print("Your Equation is: y = ",myRoundedSlope,"x + ", myRoundedIntercept, ". Approximate Coordinates:") 
+     if x1 > x2:
+         x = x2
+         while x <= x1:
+             myRoundedRange = round((myRoundedSlope*x + myLineIntercept), 1)
+             print(x, ", ", myRoundedRange)
+             x = x + 0.5
+             sleep(0.3)         
+     if x2 > x1:
+         x = x1
+         while x <= x2:
+             myRoundedRange = round((myRoundedSlope*x + myLineIntercept), 1)
+             print(x, ", ", myRoundedRange)
+             x = x + 0.5
+             sleep(0.3)
+             
+#----------------------------------------------------------------------------------------------------------------------------------------    
+     
+def generateSine():
+     myLength = randint(10, 42)
+     myIntercept = randint(6, 52)
+     myMultiplier = randint(1,8)
+     
+     x = 0
+     print("(Your Equation is: y = ",myMultiplier," * sin(x) + ",myIntercept, ". Approximate Coordinates:")
+     for i in range(0, int(myLength*2+1)):
+         myRoundedRange = (round(myMultiplier*math.sin(x), 1) + myIntercept)
+         print(x, ", ", myRoundedRange)
+         x = x + 0.5
+         sleep(0.3)
+
+#----------------------------------------------------------------------------------------------------------------------------------------
+         
+def generateSquareRoot():
+    myMultiplier = randint(1, 8)
+    myIntercept = randint(1, 15)
+    myLength = randint(20, 58)
+
+    x = 0
+    print("Your Equation is: y = ", myMultiplier, "√x +", myIntercept, ". Approximate Coordinates:") 
+    for i in range(0, (myLength*2)): #For line length:
+      myRoundedRange = round((myMultiplier*math.sqrt(x) + myIntercept), 1) 
+      print(x,", ",myRoundedRange)
+      x = x + 0.5
+      sleep(0.3)
+
+#----------------------------------------------------------------------------------------------------------------------------------------
+         
+def generateCool():
+     myIntercept = randint(10, 50)
+     
+     x = 0
+     print("Your Equation is: y = sin(x) cos(", 10, "x ) + ", myIntercept, ". Approximate Coordinates:") 
+     for i in range(0, 50): #For length:
+        myRoundedRange = round((math.sin(x)*(math.cos(10*x)) + myIntercept), 1)
+        print(x,", ",myRoundedRange)
+        x = x + 0.5
+        sleep(0.3)
+
+runProgram()
